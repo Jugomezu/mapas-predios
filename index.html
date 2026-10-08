@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mapas de predios · Optimizacion de Predios SAS</title>
+    <style>
+        :root {
+            --ink: #0f2538;
+            --muted: #4c6274;
+            --card: #ffffff;
+            --line: #d6e2ea;
+            --accent: #0a5cad;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            color: var(--ink);
+            background: radial-gradient(circle at 20% 0%, #d7e9f4 0, #b6d3e6 45%, #9cc0d8 100%);
+            padding: 40px 20px;
+        }
+        main { max-width: 1040px; margin: 0 auto; }
+        header { display: flex; align-items: center; gap: 18px; margin-bottom: 28px; flex-wrap: wrap; }
+        header img { width: 72px; height: 72px; border-radius: 12px; box-shadow: 0 6px 16px rgba(0,0,0,0.18); }
+        h1 { margin: 0; font-size: 28px; }
+        header p { margin: 4px 0 0; color: var(--muted); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+        .card {
+            display: flex; flex-direction: column; gap: 10px;
+            background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+            padding: 20px; text-decoration: none; color: inherit;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            transition: transform 0.12s ease, box-shadow 0.12s ease;
+        }
+        .card:hover, .card:focus-visible { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(0,0,0,0.18); }
+        .card h2 { margin: 0; font-size: 20px; }
+        .place { font-size: 13px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.4px; }
+        .card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+        .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+        .tag { font-size: 12px; padding: 3px 8px; border-radius: 999px; background: #eef4f8; color: var(--ink); }
+        .tag.lock { background: #fff3d6; }
+        .open { font-weight: 700; color: var(--accent); }
+        footer { margin-top: 32px; font-size: 13px; color: var(--muted); }
+        footer a { color: inherit; }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <img src="fontibon/images/optimizacion-predios-sas.png" alt="Optimizacion de Predios SAS">
+            <div>
+                <h1>Mapas de predios</h1>
+                <p>Visores geograficos de los proyectos de Optimizacion de Predios SAS</p>
+            </div>
+        </header>
+        <div class="grid">
+            <a class="card" href="fontibon/">
+                <span class="place">Bogota · Fontibon</span>
+                <h2>Mapa informativo Fontibon</h2>
+                <p>Predios 1 a 5, actuaciones estrategicas, alturas Aerocivil, retiros, tratamientos y areas de actividad del POT.</p>
+                <div class="tags"><span class="tag">Metro L2 y L3</span><span class="tag">RegioTram</span><span class="tag">Malla vial POT 555</span></div>
+                <span class="open">Abrir mapa &rarr;</span>
+            </a>
+            <a class="card" href="15-con-106/">
+                <span class="place">Bogota · Calle 106 con Carrera 15</span>
+                <h2>15 con 106</h2>
+                <p>Predios, lotes 1-2-3, area util y consolidado sobre imagen satelital y plano de referencia.</p>
+                <div class="tags"><span class="tag">Metro L2 y L3</span><span class="tag">RegioTram</span><span class="tag">Malla vial POT 555</span></div>
+                <span class="open">Abrir mapa &rarr;</span>
+            </a>
+            <a class="card" href="asomadera/">
+                <span class="place">Medellin · Asomadera</span>
+                <h2>Mapa informativo Asomadera</h2>
+                <p>Predios UAU 4, subdivision, cesiones, vivienda, inventario forestal, geotecnia y ortofoto.</p>
+                <div class="tags"><span class="tag lock">Acceso con usuario</span></div>
+                <span class="open">Abrir mapa &rarr;</span>
+            </a>
+        </div>
+        <footer>
+            Geoprocesamiento y visualizaciones: Juan P. Gomez &middot; La Metro Linea 3 es un corredor indicativo (en estudio), no un trazado oficial.
+        </footer>
+    </main>
+</body>
+</html>
