@@ -297,15 +297,22 @@
         <script src="data/AreaUtilMasRehabilitar_23.js"></script>
         <script>
         var AUTH_CONFIG = {
-            username: 'admin',
-            password: 'asomadera2026',
+            users: {
+                admin: {password: 'asomadera2026', role: 'admin'},
+                invitado: {password: 'Asm-FWkKnFKA', role: 'guest'}
+            },
             sessionKey: 'asomadera_map_authenticated'
         };
-        var mapAccessGranted = sessionStorage.getItem(AUTH_CONFIG.sessionKey) === '1';
-        function setAuthState(isAuthenticated) {
-            if (isAuthenticated) {
+        // Legacy sessions stored '1' for the admin user.
+        var storedRole = sessionStorage.getItem(AUTH_CONFIG.sessionKey);
+        var mapRole = storedRole === '1' ? 'admin' : storedRole;
+        if (mapRole !== 'admin' && mapRole !== 'guest') {
+            mapRole = null;
+        }
+        function setAuthState(role) {
+            if (role) {
                 document.body.classList.add('authenticated');
-                sessionStorage.setItem(AUTH_CONFIG.sessionKey, '1');
+                sessionStorage.setItem(AUTH_CONFIG.sessionKey, role);
                 if (window._asomaderaMap) {
                     setTimeout(function() {
                         window._asomaderaMap.invalidateSize();
@@ -316,15 +323,22 @@
                 sessionStorage.removeItem(AUTH_CONFIG.sessionKey);
             }
         }
-        setAuthState(mapAccessGranted);
+        setAuthState(mapRole);
         document.getElementById('login-form').addEventListener('submit', function(evt) {
             evt.preventDefault();
             var user = document.getElementById('login-user').value.trim();
             var pass = document.getElementById('login-pass').value;
             var errorElement = document.getElementById('login-error');
-            if (user === AUTH_CONFIG.username && pass === AUTH_CONFIG.password) {
+            var account = AUTH_CONFIG.users.hasOwnProperty(user) ? AUTH_CONFIG.users[user] : null;
+            if (account && pass === account.password) {
                 errorElement.textContent = '';
-                setAuthState(true);
+                if (account.role !== mapRole) {
+                    // The layer set depends on the role, so rebuild the map for it.
+                    sessionStorage.setItem(AUTH_CONFIG.sessionKey, account.role);
+                    window.location.reload();
+                    return;
+                }
+                setAuthState(account.role);
                 return;
             }
             errorElement.textContent = 'Usuario o contrasena incorrectos.';
@@ -2274,6 +2288,26 @@
             {label: '<img src="legend/Curvasdenivel5m_3.png" /> Curvas de nivel 5m', layer: layer_Curvasdenivel5m_3},
             {label: "Ortofoto", layer: layer_Reproyectada_1},
             {label: "OpenStreetMap", layer: layer_OpenStreetMap_0},]
+        if (mapRole === 'guest') {
+            // Guests only see the calculated areas over the orthophoto.
+            var guestLayers = [layer_Reproyectada_1, layer_AreaUtilSinCano_22, layer_AreaUtilMasRehabilitar_23];
+            Object.keys(window).forEach(function(name) {
+                var candidate = window[name];
+                if (name.indexOf('layer_') === 0 && candidate instanceof L.Layer && guestLayers.indexOf(candidate) === -1) {
+                    map.removeLayer(candidate);
+                }
+            });
+            map.removeLayer(layoutGridLayer);
+            guestLayers.forEach(function(guestLayer) {
+                map.addLayer(guestLayer);
+            });
+            map.fitBounds(layer_AreaUtilMasRehabilitar_23.getBounds(), {padding: [24, 24]});
+            overlaysTree = [
+                {label: '<span style="display:inline-block;width:12px;height:12px;border:1px solid #333;background:#2ea043;vertical-align:middle;margin-right:4px;"></span> Area util sin Cano Monserrate', layer: layer_AreaUtilSinCano_22},
+                {label: '<span style="display:inline-block;width:12px;height:12px;border:1px solid #333;background:#f0a028;vertical-align:middle;margin-right:4px;"></span> Area util sin Cano + area a rehabilitar', layer: layer_AreaUtilMasRehabilitar_23},
+                {label: "Ortofoto", layer: layer_Reproyectada_1},
+            ];
+        }
         var lay = L.control.layers.tree(null, overlaysTree,{
             collapsed: false,
         });
