@@ -293,6 +293,8 @@
         <script src="data/DZonaInestableNoUtilizable_2.js"></script>
         <script src="data/CZonaInestableRecuperable_3.js"></script>
         <script src="data/BZonaEstableDependiente_4.js"></script>
+        <script src="data/AreaUtilSinCano_22.js"></script>
+        <script src="data/AreaUtilMasRehabilitar_23.js"></script>
         <script>
         var AUTH_CONFIG = {
             username: 'admin',
@@ -2132,6 +2134,98 @@
             style: style_BZonaEstableDependiente_4_0,
         });
         bounds_group.addLayer(layer_BZonaEstableDependiente_4);
+        function pop_AreaUtilSinCano_22(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Nombre</th>\
+                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(String(feature.properties['Name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Area</th>\
+                        <td>' + (feature.properties['Area'] !== null ? autolinker.link(String(feature.properties['Area']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_AreaUtilSinCano_22_0() {
+            return {
+                pane: 'pane_AreaUtilSinCano_22',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.5, 
+                fill: true,
+                fillOpacity: 0.5,
+                fillColor: 'rgba(46,160,67,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_AreaUtilSinCano_22');
+        map.getPane('pane_AreaUtilSinCano_22').style.zIndex = 428;
+        map.getPane('pane_AreaUtilSinCano_22').style['mix-blend-mode'] = 'normal';
+        var layer_AreaUtilSinCano_22 = new L.geoJson(json_AreaUtilSinCano_22, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_AreaUtilSinCano_22',
+            layerName: 'layer_AreaUtilSinCano_22',
+            pane: 'pane_AreaUtilSinCano_22',
+            onEachFeature: pop_AreaUtilSinCano_22,
+            style: style_AreaUtilSinCano_22_0,
+        });
+        bounds_group.addLayer(layer_AreaUtilSinCano_22);
+        function pop_AreaUtilMasRehabilitar_23(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Nombre</th>\
+                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(String(feature.properties['Name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Area</th>\
+                        <td>' + (feature.properties['Area'] !== null ? autolinker.link(String(feature.properties['Area']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_AreaUtilMasRehabilitar_23_0() {
+            return {
+                pane: 'pane_AreaUtilMasRehabilitar_23',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.5, 
+                fill: true,
+                fillOpacity: 0.5,
+                fillColor: 'rgba(240,160,40,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_AreaUtilMasRehabilitar_23');
+        map.getPane('pane_AreaUtilMasRehabilitar_23').style.zIndex = 429;
+        map.getPane('pane_AreaUtilMasRehabilitar_23').style['mix-blend-mode'] = 'normal';
+        var layer_AreaUtilMasRehabilitar_23 = new L.geoJson(json_AreaUtilMasRehabilitar_23, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_AreaUtilMasRehabilitar_23',
+            layerName: 'layer_AreaUtilMasRehabilitar_23',
+            pane: 'pane_AreaUtilMasRehabilitar_23',
+            onEachFeature: pop_AreaUtilMasRehabilitar_23,
+            style: style_AreaUtilMasRehabilitar_23_0,
+        });
+        bounds_group.addLayer(layer_AreaUtilMasRehabilitar_23);
         map.addLayer(layoutGridLayer);
         var overlaysTree = [
             {label: 'Arboles', collapsed: true, selectAllCheckbox: 'Activar/Desactivar todos', children: [
@@ -2166,6 +2260,10 @@
                     {label: '<img src="legend/Etapa3Vivienda_10.png" /> Etapa 3 vivienda', layer: layer_Etapa3Vivienda_10},
                 ]},
                 {label: '<img src="legend/OtrosUsos_15.png" /> Otros usos subdivision', layer: layer_OtrosUsos_15},
+            ]},
+            {label: 'Areas calculadas', collapsed: true, selectAllCheckbox: 'Activar/Desactivar todos', children: [
+                {label: '<span style="display:inline-block;width:12px;height:12px;border:1px solid #333;background:#2ea043;vertical-align:middle;margin-right:4px;"></span> Area util sin Cano Monserrate', layer: layer_AreaUtilSinCano_22},
+                {label: '<span style="display:inline-block;width:12px;height:12px;border:1px solid #333;background:#f0a028;vertical-align:middle;margin-right:4px;"></span> Area util sin Cano + area a rehabilitar', layer: layer_AreaUtilMasRehabilitar_23},
             ]},
             {label: '<img src="legend/AreaaDesafectar_7.png" /> Area a desafectar', layer: layer_AreaaDesafectar_7},
             {label: '<img src="legend/OtrosUsos_5.png" /> Otros usos', layer: layer_OtrosUsos_5},
